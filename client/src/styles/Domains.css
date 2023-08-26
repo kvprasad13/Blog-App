@@ -1,0 +1,55 @@
+/* Domains.css */
+
+/* domains-container styles */
+.domains-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    flex-direction: column;
+   
+    gap: 10px;
+    padding: 20px;
+}
+
+
+/* button styles */
+.domains-container button {
+    display: flex;
+    /* width: 100%; */
+    /* flex-direction: column; */
+    padding: 10px 20px;
+    
+    color: black;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.domains-container button:hover {
+     background-color: #026f16;
+     color: white;
+}
+.domains-container .link{
+    text-decoration: none;
+}
+
+/* .domains-container button:focus {
+    outline: none;
+} */
+
+/* Link styles (optional) */
+/* If you want to add specific styles to the Link component, you can do it here */
+/* For example, you can change the color, text decoration, etc. */
+
+/* .domains-container .link {
+    color: #007bff;
+    text-decoration: none;
+} */
+
+/* .domains-container .link:hover {
+    text-decoration: underline;
+} */
