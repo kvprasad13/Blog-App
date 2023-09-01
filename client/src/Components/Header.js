@@ -12,7 +12,7 @@ const Header = () => {
            <img className='search-icon-image' src={searchIcon} alt="search-icon" />
         
         </div>
-        <div><Link to= "/PostPage"><button>Post</button></Link></div>
+        <div><Link to= "/post"><button>Post</button></Link></div>
            <div className='signin-signup-buttons'>
             <Link to="/signin"><button className='signin-button'>Sign In</button></Link>
             <Link to='/signup'><button className='signup-button' >Sign Up</button></Link>
