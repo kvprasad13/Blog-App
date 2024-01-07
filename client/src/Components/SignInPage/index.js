@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../styles/SignInPage.css'; // Import the CSS file
+import './index.css'; // Import the CSS file
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 const SignInPage = () => {
@@ -35,9 +35,9 @@ const SignInPage = () => {
             if (response.status === 200) {
                 // console.log(response.data.accessToken);
                 const accessToken = response.data.accessToken;
-                console.log("Access Token:",accessToken );
+                console.log("Access Token:", accessToken);
                 sessionStorage.setItem('access_token', accessToken);
-                const getUserDetails = async() => {
+                const getUserDetails = async () => {
                     try {
                         console.log('getting current user..........');
                         const response = await axios.get('http://localhost:8000/api/accounts/current', {
@@ -48,7 +48,7 @@ const SignInPage = () => {
                         });
 
 
-                        if (response.status === 200) { 
+                        if (response.status === 200) {
                             // console.log(response.data);
                             //username,email,id
                             sessionStorage.setItem('user', JSON.stringify({ ...response.data }));
@@ -59,13 +59,13 @@ const SignInPage = () => {
 
                         }
                     }
-                    catch (err) {console.log(err) }
+                    catch (err) { console.log(err) }
                 };
 
                 getUserDetails();
 
                 // console.log(userDetails);
-               
+
             }
         }
         catch (error) {

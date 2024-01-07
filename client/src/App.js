@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import SignIn from './Components/SignInPage.js';
-import SignUp from './Components/SignUpPage.js';
+import SignIn from './Components/SignInPage/index.js';
+import SignUp from './Components/SignUpPage/index.js';
 import HomePage from './Components/HomePage/index.js';
 import BlogPage from './Components/BlogPage/index.js';
 

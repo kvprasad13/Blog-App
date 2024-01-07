@@ -16,16 +16,17 @@
     background-color: #d1cccc;
     color: #000000;
     border: none;
-    font-size: 19px;;
+    font-size: 19px;
+    ;
     /* border-radius: 5px; */
     cursor: pointer;
-    
+
     transition: background-color 0.2s;
 }
 
 .link button:hover {
     background-color: green;
-    color:white;
+    color: white;
 
-    
+
 }

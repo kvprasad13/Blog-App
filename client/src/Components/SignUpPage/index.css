@@ -1,7 +1,8 @@
-.output-status{
-    color:green;
-    
+.output-status {
+    color: green;
+
 }
+
 .signup-container {
     display: flex;
     flex-direction: column;

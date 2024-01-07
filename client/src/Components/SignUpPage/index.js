@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import '../styles/SignUpPage.css'; // Import the CSS file
+import './index.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 const SignUpPage = () => {
     const [status, setStatus] = useState(0);
-    const[message, setMessage] = useState("");
+    const [message, setMessage] = useState("");
     const [formData, setFormData] = useState({
         username: '',
         email: '',
@@ -84,7 +84,7 @@ const SignUpPage = () => {
             <h2>Sign Up</h2>
             <form onSubmit={handleSubmit} className="signup-form">
                 {/* {isRegistered && <div className='output-status'>User registered successfully</div>} */}
-               
+
                 <div className="input-group">
                     <label htmlFor="username">Username:</label>
                     <input
