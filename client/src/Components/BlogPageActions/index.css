@@ -1,0 +1,71 @@
+.actions-container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-top: 1.4px solid rgb(236, 236, 236);
+    border-bottom: 1.4px solid rgb(236, 236, 236);
+}
+.actions-container .first-container ,.actions-container .second-container{
+    display: flex;
+    align-items: center;
+    
+
+}
+.actions-container .first-container .react-icon-container {
+    margin-right: 36px;
+}
+.actions-container .second-container .react-icon-container{
+    margin-left: 36px;
+}
+.react-icon-container:hover{
+    /* color:black; */
+    cursor: pointer;
+
+}
+/* Add this to your existing CSS file */
+.react-icon-container {
+    position: relative;
+    display: flex;
+   
+}
+.react-icon{
+    color:rgb(104, 104, 104);
+    margin-right:5px;
+   
+}
+.react-icon-container .number-container{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:18px ;
+    font-weight: 100;
+    padding-top: 2px;
+    color:gray
+}
+.react-icon:hover{
+    color: rgb(19, 19, 19);
+    /* background-color: aqua; */
+}
+.react-icon-container .number-container:hover{
+    color: rgb(19, 19, 19);
+}
+.tooltip-content {
+    top: -30px;
+    position: absolute;
+    background-color: #333;
+    color: white;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+   
+}
+
+.react-icon-container:hover .tooltip-content {
+    visibility: visible;
+    opacity: 1;
+}

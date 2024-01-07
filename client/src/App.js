@@ -1,27 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-// import Header from './Components/Header.js';
-// import articles from './Data/ArticlesData.js';
+
 import SignIn from './Components/SignInPage.js';
 import SignUp from './Components/SignUpPage.js';
-import HomePage from './Components/HomePage.js';
-import ArticlePage from './Components/ArticlePage.js';
-import PostPage from './Components/PostPage.js';
-import EditPage from './Components/EditPage.js';
-const App = () => {
+import HomePage from './Components/HomePage/index.js';
+import BlogPage from './Components/BlogPage/index.js';
 
+import EditPage from './Components/EditPage/index.js';
+import UserPage from './Components/UserPage/index.js';
+
+import NewStory from './Components/NewStory/index.js';
+const App = () => {
+  const [articles, setArticles] = useState([]);
+  const [recentSearches, setRecentSearches] = useState([]);
+  const user = JSON.parse(sessionStorage.getItem("user"));
+  
   return (
     <>
       <Router>
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/signin" element={<SignIn />} />
 
-          <Route path="/signup" element={<SignUp />}></Route>
-          <Route path='/articlePage/:articleId' element={<ArticlePage />}>  </Route>
 
-          <Route path="/post" element={<PostPage />}></Route>
-          <Route path = "/edit/:articleId" element={<EditPage />}></Route>
+
+          <Route path="/auth/login" element={<SignIn />} />
+
+          <Route path="/auth/register" element={<SignUp />}></Route>
+          <Route path='/' element={<HomePage user={user} articles={articles} setArticles={setArticles} recentSearches={recentSearches} setRecentSearches={setRecentSearches} />}></Route>
+          <Route path='/new-story' element={<NewStory />}></Route>
+          <Route path="/:username" element={<UserPage user={user} articles={articles} setArticles={setArticles} recentSearches={recentSearches} setRecentSearches={setRecentSearches} />}></Route>
+          <Route path="/:author/:blogTitle" element={<BlogPage />}>  </Route>
+
+
+          <Route path="/edit-story/:blogId" element={<EditPage />}></Route>
         </Routes>
       </Router>
 
