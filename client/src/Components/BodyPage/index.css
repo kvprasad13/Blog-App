@@ -1,0 +1,10 @@
+.body-page-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}
+
+/* ArticleInfo styles */
+
+.article-info {
+    margin-bottom: 20px;
+}

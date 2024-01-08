@@ -1,0 +1,40 @@
+.promotion-div-container-close{
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    background-color: rgb(249, 249, 249);
+}
+.promotion-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 48px;
+   
+    
+    
+}
+.promotion-text{
+        color: #101010;
+        font-size: 15px;
+        font-weight: 400;
+        font-family:  "Helvetica Neue", Helvetica, Arial, sans-serif;
+        margin-left: 6px;
+        margin-right: 8px;
+}
+.promotion-become-member a{
+    color: #101010;
+    font-weight: 600;
+    text-decoration:underline;
+    
+    
+    font-size: 15px;
+    /* text-decoration-color: #101010; */
+}
+.promotion-close{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+}
+.promotion-close{
+    cursor: pointer;
+}

@@ -1,0 +1,76 @@
+.comments-section {
+    margin-top: 20px;
+    border-top: 1.2px solid rgb(231, 231, 231);
+}
+
+.comments-section h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.comments-section h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.comment {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.comment .comment-actions {
+    margin-top: 10px;
+}
+
+.comment-form-textarea {
+    width: 100%;
+    resize: vertical;
+    min-height: 100px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.comment-form-button,
+.comment-form-cancel-button {
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.comment-form-button:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+}
+
+.comment-form-cancel-button {
+    background-color: #e74c3c;
+}
+
+.comment-form-button:hover,
+.comment-form-cancel-button:hover {
+    background-color: #2980b9;
+}
+
+.comment-actions button {
+    margin-right: 10px;
+}
+
+.comment-body {
+    margin-bottom: 10px;
+}
+
+.comment-form-textarea,
+.comment-form-button,
+.comment-form-cancel-button {
+    margin-bottom: 10px;
+}
