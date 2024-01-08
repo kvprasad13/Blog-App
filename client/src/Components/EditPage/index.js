@@ -9,7 +9,8 @@ const EditPage = ({ user, articles, setArticles, recentSearches, setRecentSearch
     const [content, setContent] = useState("");
     const { blogId } = useParams();
     const navigate = useNavigate();
-    // console.log(blogId);
+   
+
 
     useEffect(() => {
         const fetchArticle = async () => {
@@ -17,8 +18,8 @@ const EditPage = ({ user, articles, setArticles, recentSearches, setRecentSearch
                 const response = await axios.get(` http://localhost:8000/api/articles/article/articleId/${blogId}`);
 
                 // console.log(response);
-                setTitle(response.data.title);
-                setContent(response.data.content);
+                setTitle(response.data.article.title);
+                setContent(response.data.article.content);
             }
             catch (e) {
                 console.log(e);
