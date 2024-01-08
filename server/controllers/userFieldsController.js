@@ -24,6 +24,18 @@ const getUserFields = asyncHandler(async (req, res) => {
     res.status(200).json({  userFields });
 
 });
+const getUserFieldsByUserId = asyncHandler(async (req, res) => {
+    if (!req.params.user_id) {
+        res.status(400).send(" all fields are required");
+
+
+    }
+   
+    const userFields = await UserFields.findOne({ user_id: req.params.user_id });
+    console.log(userFields);
+    res.status(200).json({ userFields });
+
+});
 const addToFavoriteArticles = asyncHandler(async (req, res) => {
     const { articleId } = req.body;
     if (!req.user) {
@@ -114,7 +126,34 @@ const addSearchTerm = asyncHandler(async (req, res) => {
     try {
         const updatedUserField = await UserFields.findOneAndUpdate(
             { user_id: req.user.id },
-            { $push: { recentSearches: searchTerm } },
+            { $addToSet: { recentSearches: searchTerm } },
+            { new: true, upsert: true }
+        );
+
+        res.status(200).json({ recentSearches: updatedUserField.recentSearches });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+// Backend route to handle the deletion of a recent search term
+const deleteSearchTerm = asyncHandler(async (req, res) => {
+    const { searchTerm } = req.params;
+    // console.log(searchTerm);
+    if (!req.user || !req.user.id) {
+        res.status(400).send("User from the request is not found or doesn't have an ID");
+        return;
+    }
+
+    if (!searchTerm) {
+        res.status(400).send("Search term is required");
+        return;
+    }
+
+    try {
+        const updatedUserField = await UserFields.findOneAndUpdate(
+            { user_id: req.user.id },
+            { $pull: { recentSearches: searchTerm } },
             { new: true, upsert: true }
         );
 
@@ -126,4 +165,4 @@ const addSearchTerm = asyncHandler(async (req, res) => {
 });
 
 
-module.exports = { addUserFields, getUserFields, addSearchTerm, addToFavoriteArticles, removeFromFavoriteArticles };
+module.exports = { addUserFields, getUserFields, getUserFieldsByUserId, addSearchTerm, addToFavoriteArticles, removeFromFavoriteArticles, deleteSearchTerm };

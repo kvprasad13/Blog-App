@@ -35,12 +35,11 @@ const Header = ({ user, articles, setArticles, setRecentSearches }) => {
 
 
     const handleSearchIconClick = () => {
-        // console.log(`Searching for: ${searchTerm}`);
-        console.log("Icon clicked:");
-        console.log('Search Term:', searchTerm);
-        const accessToken = sessionStorage.getItem('access_token');
+       
+        const accessToken = user && user.accessToken;
 
         const fetchArticlesBySearch = async () => {
+          
             try {
 
 
@@ -67,6 +66,7 @@ const Header = ({ user, articles, setArticles, setRecentSearches }) => {
             catch (e) {
                 console.error(e);
             }
+            navigate('/')
         }
         fetchArticlesBySearch();
     }
@@ -87,11 +87,18 @@ const Header = ({ user, articles, setArticles, setRecentSearches }) => {
                 />
                 <img className='search-icon-image' src={searchIcon} alt="search-icon" onClick={handleSearchIconClick} />
             </div>
-            <div className='header-right-container'>
+
+            {
+                user ?<div className='header-right-container'>
                 <div className='article-write-container' onClick={() => navigate('new-story')}><TfiWrite size={23} color='gray' /> <div>Write</div></div>
 
-                <div className='user-image-container' onClick={() => { navigate(`${user.username}`) }}><img src={defaultUserImage} alt="" /></div>
-            </div>
+                <div className='user-image-container' onClick={() => { user ?navigate(`/@${user.username}`):navigate('/auth/login') }}><img src={defaultUserImage} alt="" /></div>
+                </div> :
+                    <div className='header-right-container' >
+                        <div className='SignInAndSingUp-container' onClick={() => { navigate('/auth/login')}}>Sign In</div>
+                        <div className='SignInAndSingUp-container' onClick={() => { navigate('/auth/register') }}> Sign Up</div>
+                        </div>
+            }
 
 
         </div>

@@ -1,27 +1,53 @@
+.domains-container{
+    border-left: 1px solid rgb(228, 228, 228);
+}
 .recent-search-list {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  
 
 
 }
 
 .recent-search {
+    display: flex;
+       
+    align-items: center;
     font-size: 20px;
-    border-color: #b4b4b4;
-    border-radius: 20px;
-    border-style: solid;
-    border-width: 1px;
-    background-color: rgb(242, 242, 242);
-    margin-left: 5px;
-    margin-right: 5px;
-    padding: 5px;
-    transition-duration: 0.4s;
+        border-color: #b4b4b4;
+        border-radius: 4px;
+        border-style: solid;
+        border-width: 1px;
+        background-color: rgb(239, 239, 239);
+        margin: 5px;
+        
+    
+        
+        transition-duration: 0.4s;
+   
+}
+.recent-search p{
+    margin:0px;
+    padding: 5px 10px 5px 10px;
+    
+    border-right: 2px solid gray;
+}
+.recent-search .react-icon{
+    color:rgb(136, 136, 136);
+    padding-left: 5px;
+    padding-top:2px;
+    font-size:14px;
+    
+}
+.recent-search .react-icon:hover{
+    color:rgb(98, 98, 98)
 }
 
 .recent-search:hover {
     cursor: pointer;
 
-    font-size: 22px;
-    transition-duration: 0.3s;
+   
 }
 
 @media screen and (max-width: 599px) {

@@ -5,11 +5,11 @@ export const getUserNameByUserId = async (user_id) => {
 
 
     try {
-        const res = await axios.get(`http://localhost:8000/api/accounts/user/${user_id}`);
-
+        const res = await axios.get(`http://localhost:8000/api/accounts/user/user_id/${user_id}`);
+        // console.log(res);
         if (res.status === 200) {
             // console.log(res.data.username);
-            return res.data.username;
+            return res.data.user.username;
         }
         else {
             console.error(res);

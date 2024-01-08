@@ -12,46 +12,41 @@ import './index.css';
 
 
 
-const BlogPageActions = ({ blogId,user, commentCount, openCommentContainer,setOpenCommentContainer }) => {
+const BlogPageActions = ({ blogId, user, commentCount, openCommentContainer, setOpenCommentContainer }) => {
 
 
 
     const navigate = useNavigate();
-   
+
     const [favoriteArticles, setFavoriteArticles] = useState([]);
 
     const saved = favoriteArticles.includes(blogId);
-    const [clappedUserIDs, setClappedUserIDs] = useState([] );
-    const isUserClapped = clappedUserIDs.includes(user.id);
+    // console.log("saved" +saved);
+    const [clappedUserIDs, setClappedUserIDs] = useState([]);
+    const isUserClapped = user && user.id && clappedUserIDs.includes(user.id);
 
-   
+
     const iconColor = isUserClapped ? 'black' : 'gray';
     // console.log(isUserClapped + " " + iconColor);
 
-   
+
 
 
     useEffect(() => {
-        const accessToken = sessionStorage.getItem('access_token');
+
+
 
         const getInitialClaps = async () => {
             // console.log('getInitialClaps' + blogId);
             try {
-                const response = await axios.get(`http://localhost:8000/api/articles/article/clap/articleId/${blogId}`, {
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`
-                    }
-                });
+                const response = await axios.get(`http://localhost:8000/api/articles/article/clap/articleId/${blogId}`);
                 // console.log(response);
                 if (response.status === 200) {
                     setClappedUserIDs(response.data.claps);
-                } else {
-                    alert(response);
-                    console.log(response);
-                }
+                } 
             } catch (err) {
                 console.log(err);
-                alert(err.response.data);
+                // alert(err.response.data);
             }
         };
 
@@ -61,8 +56,13 @@ const BlogPageActions = ({ blogId,user, commentCount, openCommentContainer,setOp
     }, [blogId]);  // Add blogId as a dependency
 
     useEffect(() => {
-        const getFavoriteArticles = async() => {
-            const accessToken = sessionStorage.getItem('access_token');
+
+
+        const getFavoriteArticles = async () => {
+            const accessToken = user&&user.accessToken;
+
+
+            if (!accessToken) return;
 
             try {
 
@@ -72,134 +72,173 @@ const BlogPageActions = ({ blogId,user, commentCount, openCommentContainer,setOp
                     }
                 });
                 // console.log(res);
-                
+
                 if (res.status === 200) {
                     setFavoriteArticles(res.data.userFields.favoriteArticles);
-                    
-                   
+
+
                 }
             }
-            catch (err) { 
+            catch (err) {
+                // console.error(err);
+            }
+        }
+        if (user) {
+            getFavoriteArticles();
+        }
+    }, []);
+
+
+    const handleClapClick = async () => {
+        // console.log("clapClicked");
+        if (!user) {
+            if (window.confirm('you need to be logged in first')) {
+                navigate('/auth/login');
+            }
+
+        }
+        else {
+            const accessToken = user&&user.accessToken;
+
+            try {
+                // console.log("i am in try block");
+
+                const response = await axios.put(`http://localhost:8000/api/articles/article/clap/articleId/${blogId}`, null, {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+                });
+
+                // console.log(response);
+
+                if (response.status === 200) {
+                    setClappedUserIDs(response.data.claps);
+                } else {
+                    alert(response);
+                    console.log(response);
+                }
+            } catch (err) {
+                console.log(err);
+                alert(err.response.data);
+            };
+        }
+    }
+
+    const handleAddToFavoriteClick = async () => {
+        if (!user) {
+            if (window.confirm('you need to be logged in ')) {
+                navigate('/auth/login');
+            }
+        }
+
+
+        else {
+
+            const accessToken = user&&user.accessToken;
+
+            try {
+                console.log(" add to favorite");
+
+                const res = await axios.post(`http://localhost:8000/api/userFields/favoriteArticles`, { articleId: blogId }, {
+                    headers: {
+                        'Authorization': 'Bearer ' + accessToken
+                    }
+                });
+                console.log(res);
+                if (res.status === 200) {
+
+                    setFavoriteArticles(res.data.updatedUserField.favoriteArticles);
+                }
+            }
+            catch (err) {
                 console.error(err);
             }
         }
-        
-        getFavoriteArticles();
-     }, []);
-  
-   
-    const handleClapClick = async () => {
-        console.log("clapClicked");
-        const accessToken = sessionStorage.getItem('access_token');
 
-        try {
-            console.log("i am in try block");
-
-            const response = await axios.put(`http://localhost:8000/api/articles/article/clap/articleId/${blogId}`, null, {
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`
-                }
-            });
-
-            console.log(response);
-
-            if (response.status === 200) {
-                setClappedUserIDs(response.data.claps);
-            } else {
-                alert(response);
-                console.log(response);
-            }
-        } catch (err) {
-            console.log(err);
-            alert(err.response.data);
-        };
-    }
-
-    const handleAddToFavoriteClick = async() => {
-        const accessToken = sessionStorage.getItem('access_token');
-
-        try {
-            console.log(" add to favorite");
-
-            const res = await axios.post(`http://localhost:8000/api/userFields/favoriteArticles`, {articleId:blogId},{
-                headers: {
-                    'Authorization': 'Bearer ' + accessToken
-                }
-            });
-            console.log(res);
-            if (res.status === 200) {
-              
-               setFavoriteArticles(res.data.updatedUserField.favoriteArticles);
-            }
-        }
-        catch (err) {
-            console.error(err);
-        }
-        
     }; const handleRemoveFromFavoriteClick = async () => {
-        const accessToken = sessionStorage.getItem('access_token');
-
-        try {
-            console.log("remove from favorite");
-
-            const res = await axios.delete(`http://localhost:8000/api/userFields/favoriteArticles`, {
-                headers: {
-                    'Authorization': 'Bearer ' + accessToken
-                },
-                data: { articleId: blogId } // Include data in the request parameters
-            });
-
-            console.log(res);
-
-            if (res.status === 200) {
-                setFavoriteArticles(res.data.updatedUserField.favoriteArticles);
-
-                                  
+        if (!user) {
+            if (window.confirm('you need to be logged in ')) {
+                navigate('/auth/login');
             }
-        } catch (err) {
-            console.error(err);
+        }
+
+
+        else {
+
+            const accessToken = user&&user.accessToken;
+
+            try {
+                // console.log("remove from favorite");
+
+                const res = await axios.delete(`http://localhost:8000/api/userFields/favoriteArticles`, {
+                    headers: {
+                        'Authorization': 'Bearer ' + accessToken
+                    },
+                    data: { articleId: blogId } // Include data in the request parameters
+                });
+
+                // console.log(res);
+
+                if (res.status === 200) {
+                    setFavoriteArticles(res.data.updatedUserField.favoriteArticles);
+
+
+                }
+            } catch (err) {
+                console.error(err);
+            }
         }
     };
 
 
     const handleDeleteBlogClick = async () => {
-
-        const accessToken = sessionStorage.getItem('access_token');
-
-        try {
-
-            const response = await axios.delete(`http://localhost:8000/api/articles/article/articleId/${blogId}`, {
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`
-                }
-            });
-          
-            if (response.status === 200) {
-
-                alert("article deleted successfully");
-
+        if (!user) {
+            if (window.confirm('you need to be logged in ')) {
+                navigate('/auth/login');
             }
-            else if (response.status === 404) {
-                alert('Article not found');
-            }
-            else {
-                alert(response);
-                console.log(response);
-            }
-            navigate('/');
-
         }
-        catch (err) {
-            // if(err.response.)
-            if (err.response.status === 403) {
-                console.log(err);
-                alert(err.response.data);
-            }
-            else {
 
-                console.log(err);
+
+        else {
+
+            const accessToken = user&&user.accessToken;
+           
+
+            try {
+
+                const response = await axios.delete(`http://localhost:8000/api/articles/article/articleId/${blogId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+                });
+
+                if (response.status === 200) {
+
+                    alert("article deleted successfully");
+
+                }
+                else if (response.status === 404) {
+                    alert('Article not found');
+                }
+                else {
+                    alert(response);
+                    console.log(response);
+                }
+                navigate('/');
+
             }
-        };
+            catch (err) {
+                // if(err.response.)
+                if (err.response.status === 403) {
+                    console.log(err);
+                    alert(err.response.data);
+                }
+                else {
+
+                    console.log(err);
+                }
+            };
+        }
 
 
     };
@@ -216,16 +255,16 @@ const BlogPageActions = ({ blogId,user, commentCount, openCommentContainer,setOp
 
         < main className="actions-container" >
             <div className="first-container">
-              
-                    <div className="react-icon-container" onClick={handleClapClick}>
-                    <FaHandsClapping className='react-icon' size={22} style={{ color: iconColor }} />
-                    
-                    <div className='clap-count-container number-container'>{clappedUserIDs.length}</div></div>
+
+                <div className="react-icon-container" onClick={handleClapClick}>
+                    <FaHandsClapping className='react-icon' size={22} style={isUserClapped && { color: iconColor }} />
+
+                    <div className='clap-count-container number-container'>{clappedUserIDs && clappedUserIDs.length}</div></div>
                 <div className="react-icon-container" tooltip='respond' onClick={handleTopCommentIconClick}><FaRegComment className='react-icon' size={22} /> {commentCount !== 0 && <div className='comment-count-container number-container'>{commentCount}</div>}</div>
             </div>
 
             <div className="second-container">
-               
+
                 {saved ? <div className="react-icon-container" onClick={handleRemoveFromFavoriteClick} ><MdOutlineBookmarkAdded className='react-icon' size={22} /></div> :
                     <div className="react-icon-container" onClick={handleAddToFavoriteClick}><MdOutlineBookmarkAdd className='react-icon' size={22} /></div>}
                 <div className="react-icon-container" tooltip='edit' ><Link to={`/edit-story/${blogId}`}><TbEdit className='react-icon' size={22} /></Link></div>

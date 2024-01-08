@@ -5,12 +5,12 @@ const CommentForm = ({blogId, handleSubmit, submitLabel, hasCancelButton = false
     const isTextareaDisabled = text.length === 0;
     const onSubmit = event => {
         event.preventDefault();
-        console.log("blogId: " + blogId);
+        // console.log("blogId: " + blogId);
         // if(blogId)
             handleSubmit(text);
         setText('');
     }
-    console.log(text);
+    // console.log(text);
     return (
         <form onSubmit={onSubmit}>
             <textarea

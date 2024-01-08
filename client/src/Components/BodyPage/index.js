@@ -9,7 +9,7 @@ const BodyPage = ({ user, articles, setArticles, isDialogOpen, setDialogOpen, re
     return <div className="body-page-container">
 
         <NavBarArticlesInfo user={user} articles={articles} setArticles={setArticles} isDialogOpen={isDialogOpen} setDialogOpen={setDialogOpen} />
-        <RecentSearches recentSearches={recentSearches} setRecentSearches={setRecentSearches} />
+        <RecentSearches user={ user} recentSearches={recentSearches} setRecentSearches={setRecentSearches} />
     </div>
 
 }

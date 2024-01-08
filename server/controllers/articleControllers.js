@@ -13,13 +13,14 @@ const getArticles = asyncHandler(async (req, res) => {
     else
         res.status(200).json(articles);
 });
-const getUserArticles = asyncHandler(async (req, res) => {
-    const articles = await Article.find({ user_id: req.user.id });
+const getAuthorArticles = asyncHandler(async (req, res) => {
+    console.log(req.params);
+    const articles = await Article.find({ user_id: req.params.user_id });
     if (articles == null) {
         res.status(404).send("No articles found");
     }
     else
-        res.status(200).json(articles);
+        res.status(200).json({articles});
 });
 
 //@desc retrieve article
@@ -31,7 +32,7 @@ const getArticle = asyncHandler(async (req, res) => {
     const article = await Article.findById({ _id: articleId });
     // console.log(article);
     if (article) {
-        res.status(200).json(article);
+        res.status(200).json({article});
 
     }
     else {
@@ -142,9 +143,9 @@ const Search = asyncHandler(async (req, res) => {
 
 const getClapCount = asyncHandler(async (req, res) => {
     const { articleId } = req.params;
-    const userId = req.user.id;
-    console.log({ articleId, userId });
-    if (!articleId || !userId) {
+   
+  
+    if (!articleId) {
 
         res.status(400).json({ error: "All fields are required" });
 
@@ -200,5 +201,5 @@ const getClapCount = asyncHandler(async (req, res) => {
     }
 });
 
-module.exports = { getArticle, createArticle, updateArticle, deleteArticle, getUserArticles, getArticles, Search, getClapCount, updateClaps }
+module.exports = { getArticle, createArticle, updateArticle, deleteArticle, getAuthorArticles, getArticles, Search, getClapCount, updateClaps }
 

@@ -36,7 +36,7 @@ const registerUser = asyncHandler(async (req, res, next) => {
 });
 const loginUser = asyncHandler(async (req, res) => {
     const { usernameOrEmailId, password } = req.body;
-    console.log(usernameOrEmailId + " " + password);
+    // console.log(usernameOrEmailId + " " + password);
 
     if (!usernameOrEmailId || !password) {
         res.status(400).send('All fields are required');
@@ -76,23 +76,40 @@ const currentUser = asyncHandler(async (req, res) => {
     res.status(200).send(req.user);
 });
 
-const getUserDetails = asyncHandler(async (req, res) => {
+const getUserDetailsByUserId = asyncHandler(async (req, res) => {
 
     const user_id = req.params.user_id;
     if (!user_id) {
         res.status(401).send("  user id is  required")
         throw new Error(`  user id is  required`);
     }
-    const user = await User.findById(user_id);
+    const user = await User.findOne({ _id:user_id });
     if (!user) {
         res.status(404).send(" user not found");
 
     }
 
 
-    res.status(200).send(user);
+    res.status(200).send({ user });
+});
+
+const getUserDetailsByUserName = asyncHandler(async (req, res) => {
+
+    const username = req.params.username;
+    if (!username) {
+        res.status(401).send("  user name is  required")
+        throw new Error(`  user name is  required`);
+    }
+    const user = await User.findOne({username});
+    if (!user) {
+        res.status(404).send(" user not found");
+
+    }
+
+
+    res.status(200).send({user});
 });
 
 
 
-module.exports = { registerUser, loginUser, currentUser, getUserDetails };
+module.exports = { registerUser, loginUser, currentUser, getUserDetailsByUserId,getUserDetailsByUserName };

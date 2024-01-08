@@ -5,8 +5,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './index.css'; // Import the CSS file
 
-
-const NewStory = () => {
+import Header from '../Header/index.js';
+const NewStory = ({ user, articles, setArticles, recentSearches, setRecentSearches }) => {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const navigate = useNavigate();
@@ -20,38 +20,51 @@ const NewStory = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const accessToken = sessionStorage.getItem('access_token');
-
-        try {
-            const response = await axios.post('http://localhost:8000/api/articles', { title, content }, {
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`
-                }
-            });
-
-            if (response.status === 201) {
-                alert("Article posted successfully");
-            } else {
-                alert("Getting article failed", response.status);
+        if (!user) {
+            if (window.confirm('you need to be logged in ')) {
+                navigate('/auth/login');
             }
-            setTitle("");
-            setContent("");
-            navigate('/');
         }
-        catch (error) {
-            if (error.response.status === 409) {
-                alert("Article already exists");
+
+
+        else {
+
+            const accessToken = user && user.accessToken;
+
+            try {
+                const response = await axios.post('http://localhost:8000/api/articles', { title, content }, {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+                });
+
+                if (response.status === 201) {
+                    alert("Article posted successfully");
+                } else {
+                    alert("Getting article failed", response.status);
+                }
+                setTitle("");
+                setContent("");
+                navigate('/');
             }
-            else if (error.response.status === 403) {
-                alert("User is Authorized");
-            }
-            else {
-                console.log(error);
+            catch (error) {
+                if (error.response.status === 409) {
+                    alert("Article already exists");
+                }
+                else if (error.response.status === 403) {
+                    alert("User is Authorized");
+                }
+                else {
+                    console.log(error);
+                }
             }
         }
     }
 
     return (
+        <>
+         <Header user={user} articles={articles} setArticles={setArticles} recentSearches={recentSearches} setRecentSearches={setRecentSearches} />
+          
         <form className="new-story-form" onSubmit={handleSubmit}>
             <label>
                 Title:
@@ -77,7 +90,8 @@ const NewStory = () => {
                 <button type="button" className = "back-button" onClick={()=>{navigate('/')}}>Back</button>
                 <button type="submit" className="submit-button">Submit </button>
             </div>
-        </form>
+            </form>
+        </>
     );
 };
 

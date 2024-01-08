@@ -1,5 +1,5 @@
 
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from "axios";
 import { useEffect, useState } from 'react';
 import './index.css';
@@ -7,9 +7,11 @@ import { FaSquareFull } from "react-icons/fa";
 import userDefaultIcon from '../.././assets/images/user.jpeg';
 import BlogPageActions from '../BlogPageActions/index.js';
 import Comments from '../Comments/index.js';
-import { getUserNameByUserId, getLocalUpdatedDateToRenderInAuthorDetails, getTimeTakenToReadBlogInStringFormat } from '../.././constants/userDefinedFunctions.js';
-const BlogPage = () => {
+import Header from '../Header/index.js';
+import {  getLocalUpdatedDateToRenderInAuthorDetails, getTimeTakenToReadBlogInStringFormat } from '../.././constants/userDefinedFunctions.js';
+const BlogPage = ({ user, articles, setArticles, recentSearches,setRecentSearches }) => {
     const { blogTitle } = useParams();
+    const navigate = useNavigate();
     const [openCommentContainer, setOpenCommentContainer] = useState(false);
     const [backendComments, setBackendComments] = useState([]);
     const rootComments = backendComments.filter(
@@ -19,7 +21,7 @@ const BlogPage = () => {
 
 
     // console.log(blogTitle);
-    const user = JSON.parse(sessionStorage.getItem('user'));
+    // const user = JSON.parse(sessionStorage.getItem('user'));
 
     const blogId = (function () {
         const arr = blogTitle.split('-');
@@ -30,22 +32,6 @@ const BlogPage = () => {
 
     const [Blog, setBlog] = useState({}); // Initialize state to hold articles
   
-    const [username, setUsername] = useState(null);
-
-    const usernamePromise = async () => {
-        try {
-            const username = await getUserNameByUserId(Blog.user_id);
-
-            setUsername(username);
-
-        } catch (error) {
-
-            console.error('Error:', error)
-            return null;
-        }
-    };
-    usernamePromise();
-    // console.log(Blog);
 
 
 
@@ -54,11 +40,10 @@ const BlogPage = () => {
 
         const fetchBlog = async () => {
             try {
-                console.log("At fetch Blogs" + blogId);
-                //   http://localhost:8000/api/articles/article/articleId/65983c1c3cc8ced9d1ce343b
+              
                 const response = await axios.get(`http://localhost:8000/api/articles/article/articleId/${blogId}`);
-                // console.log(response.data);
-                setBlog(response.data); 
+             
+                setBlog(response.data.article); 
                 
             } catch (error) {
                 console.error("Error fetching Blogs:", error);
@@ -70,14 +55,18 @@ const BlogPage = () => {
     // console.log(Blog.claps);
 
 
-    return <main className="blog-page-container">
+    return <div>
+        <Header user={user} articles={articles} setArticles={setArticles} recentSearches={recentSearches} setRecentSearches={setRecentSearches} />
+    <main className="blog-page-container">
+        
+
         <header className='blog-page-container-header'>
             <div className='title'> <h1>{Blog.title}</h1></div>
             <div className='user-blog-details'>
-                <div className='author-icon-container'>
+                    <div className='author-icon-container' onClick={() => { navigate(`/@${Blog.username}`) }}>
                     <img src={userDefaultIcon} alt="" />
                 </div>
-                <div className='username'>{username}</div>
+                    <div className='username' onClick={() => { navigate(`/@${Blog.username}`) }}>{Blog.username}</div>
                 <div className='timeTaken-updatedAt'>
                 <div className='separator'><FaSquareFull size={2.4} color='gray' /></div>
                 <div className='time-taken'>{Blog.content && getTimeTakenToReadBlogInStringFormat(Blog.content)}</div>
@@ -96,7 +85,8 @@ const BlogPage = () => {
         {openCommentContainer && <Comments user={user}  blogId={blogId} backendComments={backendComments} setBackendComments={setBackendComments} rootComments={rootComments}/>}
 
 
-    </main>
+        </main>
+    </div>
 
 }
 

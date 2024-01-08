@@ -3,9 +3,11 @@ import axios from 'axios';
 import CommentForm from '../CommentForm/index.js';
 import Comment from '../Comment/index.js';
 import './index.css';
+import { useNavigate } from 'react-router-dom';
 const Comments = ({ user, blogId, backendComments, setBackendComments,rootComments }) => {
 
 
+    const navigate = useNavigate();
 
     const [activeComment, setActiveComment] = useState(null);
 
@@ -14,7 +16,7 @@ const Comments = ({ user, blogId, backendComments, setBackendComments,rootCommen
         const getAllComments = async () => {
 
 
-            const accessToken = sessionStorage.getItem('access_token');
+            const accessToken = user&&user.accessToken;
             try {
                 // console.log("at getting all comments try block");
 
@@ -84,55 +86,64 @@ const Comments = ({ user, blogId, backendComments, setBackendComments,rootCommen
         return 1 + ans;
     }
     const addComment = async (text, blogId, parentId, parentLevel) => {
-        console.log("blogId " + blogId + " text: " + text + " parentId: " + parentId + " parentLevel: " + parentLevel);
-        // if (!blogId) return;
-        const accessToken = sessionStorage.getItem('access_token');
-        if (parentLevel && (parentLevel === 6)) {
-            alert("Couldn't add a reply because you've reached maximum reply levels")
+      
+        const accessToken = user&&user.accessToken;
+        if (!user) {
+            if (window.confirm('you need to be logged in ')) {
+                navigate('/auth/login');
+            }
         }
-        else if (parentId && parentId !== null && ((getCountCommentsInTree(getRootCommentId(parentId)) - 1) === 50)) {
-            alert("Couldn't add a reply because you've reached the maximum replies");
 
-        }
+
         else {
-            try {
-                const newComment = {
-                    body: text,
-                    parent_id: parentId || null,
-                    level: parentLevel === undefined ? 0 : parentLevel + 1
 
-                };
-                // console.log("at creating commetn"+{ newComment, blogId });
-                //   http://localhost:8000/api/articles/article/comment/articleId/6598dfe19f877d25a9f33e98
-                const res = await axios.post(`http://localhost:8000/api/articles/article/comment/articleId/${blogId}`, newComment, {
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`
-                    }
-                });
-                console.log(res);
-                if (res.status === 201) {
+            if (parentLevel && (parentLevel === 6)) {
+                alert("Couldn't add a reply because you've reached maximum reply levels")
+            }
+            else if (parentId && parentId !== null && ((getCountCommentsInTree(getRootCommentId(parentId)) - 1) === 50)) {
+                alert("Couldn't add a reply because you've reached the maximum replies");
 
-                    setBackendComments([res.data, ...backendComments]);
+            }
+            else {
+                try {
+                    const newComment = {
+                        body: text,
+                        parent_id: parentId || null,
+                        level: parentLevel === undefined ? 0 : parentLevel + 1
 
-                    setActiveComment(null);
-                }
-                else {
+                    };
+                    // console.log("at creating commetn"+{ newComment, blogId });
+                    //   http://localhost:8000/api/articles/article/comment/articleId/6598dfe19f877d25a9f33e98
+                    const res = await axios.post(`http://localhost:8000/api/articles/article/comment/articleId/${blogId}`, newComment, {
+                        headers: {
+                            'Authorization': `Bearer ${accessToken}`
+                        }
+                    });
                     console.log(res);
+                    if (res.status === 201) {
+
+                        setBackendComments([res.data, ...backendComments]);
+
+                        setActiveComment(null);
+                    }
+                    else {
+                        console.log(res);
+                    }
                 }
-            }
-            catch (error) {
-                console.log(error);
-                alert("Getting error at creating new comment");
+                catch (error) {
+                    console.log(error);
+                    alert("Getting error at creating new comment");
+
+                }
 
             }
-
         }
     }
 
 
     const updateComment = async (text, commentId) => {
 
-        const accessToken = sessionStorage.getItem('access_token');
+        const accessToken = user&&user.accessToken;
         try {
 
             const res = await axios.put(`http://localhost:8000/api/articles/article/comment/commentId/${commentId}`, { body: text }, {
@@ -170,7 +181,7 @@ const Comments = ({ user, blogId, backendComments, setBackendComments,rootCommen
     }
     const deleteComment = async (commentId) => {
         if (window.confirm("Are you sure you want to delete this comment")) {
-            const accessToken = sessionStorage.getItem('access_token');
+            const accessToken = user&&user.accessToken;
             try {
 
                 const res = await axios.delete(`http://localhost:8000/api/articles/article/comment/commentId/${commentId}`, {
@@ -211,7 +222,7 @@ const Comments = ({ user, blogId, backendComments, setBackendComments,rootCommen
 
 
     const handleUpvote = async (commentId) => {
-        const accessToken = sessionStorage.getItem('access_token');
+        const accessToken = user&&user.accessToken;
         try {
 
             const res = await axios.put(`http://localhost:8000/api/articles/article/comment/like/commentId/${commentId}`, null, {
@@ -250,7 +261,7 @@ const Comments = ({ user, blogId, backendComments, setBackendComments,rootCommen
     };
 
     const handleDownvote = async (commentId) => {
-        const accessToken = sessionStorage.getItem('access_token');
+        const accessToken = user&&user.accessToken;
         try {
 
             const res = await axios.put(`http://localhost:8000/api/articles/article/comment/dislike/commentId/${commentId}`, null, {

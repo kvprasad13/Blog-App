@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const validateToken = require('../middleware/validateTokenHandler.js');
-const { getArticle, createArticle, updateArticle, deleteArticle, getUserArticles, getArticles, Search, getClapCount, updateClaps } = require('../controllers/articleControllers.js');
+const { getArticle, createArticle, updateArticle, deleteArticle, getAuthorArticles, getArticles, Search, getClapCount, updateClaps } = require('../controllers/articleControllers.js');
 const { createComment, getAllComments, updateComment, deleteComment, updateLikes, updateDisLikes } = require('../controllers/commentControllers.js');
 router.route('/').get(getArticles);
 router.route('/article/articleId/:articleId').get(getArticle);
@@ -10,11 +10,13 @@ router.route('/article/articleId/:articleId').get(getArticle);
 
 router.get('/search', Search);
 router.route('/article/comment/articleId/:articleId').get(getAllComments);
+router.route('/article/clap/articleId/:articleId').get(getClapCount);
 router.use(validateToken);
-router.route('/').get(getUserArticles).post(createArticle);
+router.route('/').post(createArticle);
+router.route('/userArticles/user_id/:user_id').get(getAuthorArticles)
 router.route('/article/articleId/:articleId').put(updateArticle).delete(deleteArticle);
 
-router.route('/article/clap/articleId/:articleId').get(getClapCount).put(updateClaps);
+router.route('/article/clap/articleId/:articleId').put(updateClaps);
 
 //comments field
 

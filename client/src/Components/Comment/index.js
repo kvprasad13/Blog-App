@@ -4,6 +4,7 @@ import './index.css';
 import userIcon from '../../assets/images/user.jpeg';
 
 
+import { getLocalUpdatedDateToRenderInAuthorDetails } from '../../constants/userDefinedFunctions.js';
 
 import { BiSolidUpArrowAlt, BiSolidDownArrowAlt } from "react-icons/bi";
 import { RiReplyLine } from "react-icons/ri";
@@ -14,12 +15,13 @@ import { TbMessages } from "react-icons/tb";
 import { TbMessagesOff } from "react-icons/tb";
 
 import CommentForm from '../CommentForm/index.js';
-import { getLocalUpdatedDateToRenderInAuthorDetails } from '../../constants/userDefinedFunctions.js';
+import { useNavigate } from 'react-router-dom';
+
 const Comment = ({blogId, comment, getReplies, replies, addComment, deleteComment, updateComment, activeComment, setActiveComment, handleUpvote, handleDownvote, user }) => {
 
-
+    const navigate = useNavigate();
     const [showRepliesBoolean, setShowRepliesBoolean] = useState(false);
-    const currentUserId = user.id;
+    const currentUserId = user&&user.id;
 
     const canReply = (Boolean(currentUserId) && currentUserId !== comment.user_id);
 
@@ -43,12 +45,12 @@ const Comment = ({blogId, comment, getReplies, replies, addComment, deleteCommen
 
     return (
         <div className="comment">
-            <div>
+            <div onClick={() => { navigate(`/@${comment.username}`) }}>
                 <img src={userIcon} className="user-icon-image" alt="" />
             </div>
-            <div className="comment-second-child">
+            <div className="comment-second-child" >
                 <div className="username-timestamp">
-                    <p className="username">{comment.username}</p>
+                    <p className="username" onClick={() => { navigate(`/@${comment.username}`) }}>{comment.username}</p>
                     <p className="timestamp">{updatedAtString}</p>
                 </div>
 

@@ -34,6 +34,9 @@
     margin-right: 6px;
 
 }
+ .author-container .author-username:hover{
+    cursor: pointer;
+}
 .author-container .separator{
     
     display: flex;

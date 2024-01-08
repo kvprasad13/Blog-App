@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './index.css'; // Import the CSS file
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-const SignInPage = () => {
+const SignInPage = ({ user, setUser }) => {
     const [formData, setFormData] = useState({
         usernameOrEmailId: '',
         password: '',
@@ -29,17 +29,17 @@ const SignInPage = () => {
                 usernameOrEmailId: formData.usernameOrEmailId,
                 password: formData.password,
             });
-            console.log(response);
+            // console.log(response);
 
 
             if (response.status === 200) {
                 // console.log(response.data.accessToken);
                 const accessToken = response.data.accessToken;
-                console.log("Access Token:", accessToken);
-                sessionStorage.setItem('access_token', accessToken);
+                // console.log("Access Token:", accessToken);
+                // sessionStorage.setItem('access_token', accessToken);
                 const getUserDetails = async () => {
                     try {
-                        console.log('getting current user..........');
+                        // console.log('getting current user..........');
                         const response = await axios.get('http://localhost:8000/api/accounts/current', {
 
                             headers: {
@@ -51,7 +51,8 @@ const SignInPage = () => {
                         if (response.status === 200) {
                             // console.log(response.data);
                             //username,email,id
-                            sessionStorage.setItem('user', JSON.stringify({ ...response.data }));
+                            // sessionStorage.setItem('user', JSON.stringify({ ...response.data }));
+                            setUser({ ...response.data ,accessToken});
                             navigate('/');
                             // const currentUser = JSON.parse(sessionStorage.getItem('user'));
                             // console.log(currentUser.id, currentUser.email, currentUser.username);

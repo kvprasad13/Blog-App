@@ -2,13 +2,16 @@ import { Link } from 'react-router-dom';
 import './index.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-const Recent = ({ recentSearches, setRecentSearches }) => {
+import { RiDeleteBack2Fill } from "react-icons/ri";
+const Recent = ({user, recentSearches, setRecentSearches }) => {
     
 
     useEffect(() => {
 
         const getAllRecentSearches = async () => {
-            const accessToken = sessionStorage.getItem('access_token');
+            
+            const accessToken = user&&user.accessToken;
+            if (!accessToken) return;
 
             try {
               
@@ -18,14 +21,14 @@ const Recent = ({ recentSearches, setRecentSearches }) => {
                         'Authorization': 'Bearer ' + accessToken
                     }
                 });
-                console.log(res)
+                // console.log(res)
                 if (res.status === 200) {
                     setRecentSearches(res.data.userFields.recentSearches);
 
                 }
             }
             catch (err) {
-                console.error(err);
+                // console.error(err);
             }
         };
 
@@ -35,6 +38,28 @@ const Recent = ({ recentSearches, setRecentSearches }) => {
         getAllRecentSearches();
 
     }, []);
+    // Frontend code triggers this function to delete a recent search term
+    const handleSearchTermDeleteClick = async (searchTerm) => {
+
+        const accessToken = user&&user.accessToken;
+
+        try {
+            console.log(searchTerm);
+            const res = await axios.delete(`http://localhost:8000/api/userFields/recentSearches/searchTerm/${searchTerm}`,{
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken
+                },
+               
+            });
+
+            if (res.status === 200) {
+                setRecentSearches(res.data.recentSearches);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     return <div className='domains-container'>
         <h1>Recent</h1>
 
@@ -43,7 +68,10 @@ const Recent = ({ recentSearches, setRecentSearches }) => {
             {recentSearches.map((searchTerm, index) => (
 
                 <div key={index} className='recent-search'>
-                    {searchTerm}
+                    <p>{searchTerm}</p>
+                    <RiDeleteBack2Fill onClick={() => handleSearchTermDeleteClick(searchTerm)} className="react-icon"  />
+                    
+
                 </div>
 
             ))}

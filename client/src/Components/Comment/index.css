@@ -15,7 +15,9 @@
     width: 38px;
     border-radius: 20px;
 }
-
+.user-icon-image:hover{
+    cursor: pointer;
+}
 .username-timestamp {
     display: flex;
     align-items: center;
@@ -25,6 +27,9 @@
 
 .username-timestamp .username {
     margin-right: 7px;
+}
+.username-timestamp .username:hover{
+    cursor: pointer;
 }
 .username-timestamp .timestamp {
     
