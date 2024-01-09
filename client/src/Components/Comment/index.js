@@ -33,7 +33,7 @@ const Comment = ({blogId, comment, getReplies, replies, addComment, deleteCommen
     // console.log("Current user: " + JSON.stringify(user) + "createdAt " + comment.createdAt);
 
     // console.log("canReply: " + canReply + " canEdit: " + canEdit + " canDelete: " + canDelete + "  currentUserId:" + currentUserId + "comment" + JSON.stringify(comment));
-    console.log(comment);
+    // console.log(comment);
     const updatedAtString = getLocalUpdatedDateToRenderInAuthorDetails( new Date(comment.updatedAt).toLocaleDateString());
     const isReplying = activeComment && activeComment.type === 'replying' && activeComment._id === comment._id;
     const isEditing = activeComment && activeComment.type === 'editing' && activeComment._id === comment._id;

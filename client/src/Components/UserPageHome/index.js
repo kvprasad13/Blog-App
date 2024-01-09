@@ -2,12 +2,13 @@
 import ArticlesGroupComponent from '../ArticlesGroupComponent/index.js';
 import { useEffect, useState, React } from 'react';
 import axios from 'axios';
-const Home = ({user, authorUserId }) => {
+const Home = ({ user, authorUserId }) => {
     const [Blogs, setBlogs] = useState([]);
+   
     useEffect(() => {
         const getUserBlogs = async (authorUserId) => {
 
-            const accessToken = user&&user.accessToken;
+            const accessToken = user && user.accessToken;
 
 
             try {
@@ -36,6 +37,7 @@ const Home = ({user, authorUserId }) => {
             getUserBlogs(authorUserId);
     }, []);
     // console.log(Blogs);
+
 
     return <ArticlesGroupComponent Blogs={Blogs} />;
 }

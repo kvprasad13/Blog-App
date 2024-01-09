@@ -14,7 +14,7 @@ import authorDefaultIcon from '../../assets/images/user.jpeg';
 const About = () => {
     return <div>Nothing mentioned</div>
 };
-const UserPage = ({ user,setUser, articles, setArticles, recentSearches, setRecentSearches }) => {
+const UserPage = ({ user, setUser, articles, setArticles, recentSearches, setRecentSearches }) => {
     const [selectedTab, setSelectedTab] = useState('about');
     const authorName = useParams().username.split('@')[1];
     const [authorUserId, setAuthorUserId] = useState(undefined);
@@ -22,7 +22,6 @@ const UserPage = ({ user,setUser, articles, setArticles, recentSearches, setRece
 
 
     const canEditProfile = authorName === (user && user.username);
-
 
 
     const handleTabClick = (tab) => {
@@ -46,6 +45,7 @@ const UserPage = ({ user,setUser, articles, setArticles, recentSearches, setRece
                 // console.log(res);
                 if (res.status === 200) {
                     setAuthorUserId(res.data.user._id);
+                    setSelectedTab('about');
                 }
             }
             catch (err) {
@@ -59,8 +59,8 @@ const UserPage = ({ user,setUser, articles, setArticles, recentSearches, setRece
         getAuthorUserId(authorName);
 
 
-    }, []);
-    // console.log("author id"+authorUserId);
+    }, [authorName]);
+    // console.log("author id"+authorUserId+"author name "+authorName);
 
 
     return <main className="user-page-container">
@@ -87,9 +87,9 @@ const UserPage = ({ user,setUser, articles, setArticles, recentSearches, setRece
                     <button onClick={() => handleTabClick('about')} style={selectedTab === 'about' ? { color: 'black', borderBottom: '1px solid rgb(0, 0, 0)' } : {}}>About</button>
                 </nav>
                 <div className='content-container'>
-                    {selectedTab === 'home' && <Home user={user} authorUserId={authorUserId} />}
+                    {selectedTab === 'home' && <Home user={user} authorUserId={authorUserId} setAuthorUserId={setAuthorUserId} />}
                     {selectedTab === 'about' && <About />}
-                    {selectedTab === 'favorites' && <Favorites user={user} authorUserId={authorUserId} />}
+                    {selectedTab === 'favorites' && <Favorites user={user} authorUserId={authorUserId} setAuthorUserId={setAuthorUserId} />}
                 </div>
             </main>
 
@@ -101,7 +101,8 @@ const UserPage = ({ user,setUser, articles, setArticles, recentSearches, setRece
                 <div className='authorName-container'>{authorName}</div>
                 {canEditProfile && <div className='edit-profile-container'><a href={`/@${authorName}`}>Edit Profile</a></div>}
 
-                {user && <div className='signOut-container'><button onClick={() => {
+                {canEditProfile && <div className='signOut-container'><button onClick={() => {
+                    localStorage.removeItem('user');
                     setUser(undefined);
                     navigate('/');
                 }}>Sign Out</button></div>}

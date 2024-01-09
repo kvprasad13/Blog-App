@@ -200,44 +200,47 @@ const BlogPageActions = ({ blogId, user, commentCount, openCommentContainer, set
 
 
         else {
+            if (window.confirm('are you sure you want to delete this blog?')) {
 
-            const accessToken = user&&user.accessToken;
+                const accessToken = user && user.accessToken;
            
 
-            try {
+                try {
 
-                const response = await axios.delete(`http://localhost:8000/api/articles/article/articleId/${blogId}`, {
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`
+                    const response = await axios.delete(`http://localhost:8000/api/articles/article/articleId/${blogId}`, {
+                        headers: {
+                            'Authorization': `Bearer ${accessToken}`
+                        }
+                    });
+
+                    if (response.status === 200) {
+
+                        alert("article deleted successfully");
+
                     }
-                });
-
-                if (response.status === 200) {
-
-                    alert("article deleted successfully");
+                    else if (response.status === 404) {
+                        alert('Article not found');
+                    }
+                    else {
+                        alert(response);
+                        console.log(response);
+                    }
+                    navigate('/');
 
                 }
-                else if (response.status === 404) {
-                    alert('Article not found');
-                }
-                else {
-                    alert(response);
-                    console.log(response);
-                }
-                navigate('/');
+                catch (err) {
+                    // if(err.response.)
+                    if (err.response.status === 403) {
+                        console.log(err);
+                        alert(err.response.data);
+                    }
+                    else {
 
+                        console.log(err);
+                    }
+                };
             }
-            catch (err) {
-                // if(err.response.)
-                if (err.response.status === 403) {
-                    console.log(err);
-                    alert(err.response.data);
-                }
-                else {
-
-                    console.log(err);
-                }
-            };
+            
         }
 
 

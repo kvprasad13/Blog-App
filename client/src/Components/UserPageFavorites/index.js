@@ -4,18 +4,21 @@ import { useEffect, useState, React } from 'react';
 import axios from 'axios';
 const Favorites = ({ user,authorUserId }) => {
     const [Blogs, setBlogs] = useState([]);
+    
 
     const fetchBlog = async (blogId) => {
-        try {
-            // console.log("At fetch Blogs" + blogId);
+        if (blogId) {
+            try {
+                // console.log("At fetch Blogs" + blogId);
 
-            const response = await axios.get(`http://localhost:8000/api/articles/article/articleId/${blogId}`);
+                const response = await axios.get(`http://localhost:8000/api/articles/article/articleId/${blogId}`);
 
 
-            setBlogs((prevBlogs) => [...prevBlogs, { ...response.data.article }]);
+                setBlogs((prevBlogs) => [...prevBlogs, { ...response.data.article }]);
 
-        } catch (error) {
-            console.error("Error fetching Blogs:", error);
+            } catch (error) {
+                console.error("Error fetching Blogs:", error);
+            }
         }
     };
 
@@ -23,8 +26,8 @@ const Favorites = ({ user,authorUserId }) => {
     useEffect(() => {
         const getAuthorFavoriteBlogs = async (authorUserId) => {
 
-            const accessToken = user && user.accessToken ;
-
+            const accessToken = user && user.accessToken;
+            if (!accessToken) return;
             try {
                 const res = await axios.get(
                     `http://localhost:8000/api/userFields/user_id/${authorUserId}`,
@@ -39,7 +42,7 @@ const Favorites = ({ user,authorUserId }) => {
                     const favoriteBlogsIDs = res.data.userFields.favoriteArticles;
                     // console.log("favoriteBlogIds" + favoriteBlogsIDs);
                     try {
-
+                       
                         favoriteBlogsIDs.forEach(blogId => {
                             fetchBlog(blogId)
                         });
@@ -61,6 +64,7 @@ const Favorites = ({ user,authorUserId }) => {
             getAuthorFavoriteBlogs(authorUserId);
     }, []);
     // console.log(Blogs);
+
 
     return <ArticlesGroupComponent Blogs={Blogs} />;
 
