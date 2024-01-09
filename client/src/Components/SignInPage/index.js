@@ -52,8 +52,10 @@ const SignInPage = ({ user, setUser }) => {
                             // console.log(response.data);
                             //username,email,id
                             // sessionStorage.setItem('user', JSON.stringify({ ...response.data }));
-                            setUser({ ...response.data ,accessToken});
+                            localStorage.setItem('user', JSON.stringify( { ...response.data, accessToken }));
+                            // console.log(localStorage.getItem('user'));
                             navigate('/');
+                            
                             // const currentUser = JSON.parse(sessionStorage.getItem('user'));
                             // console.log(currentUser.id, currentUser.email, currentUser.username);
                             // console.log();

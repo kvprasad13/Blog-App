@@ -13,9 +13,18 @@ import NewStory from './Components/NewStory/index.js';
 const App = () => {
   const [articles, setArticles] = useState([]);
   const [recentSearches, setRecentSearches] = useState([]);
+  const currentUser = JSON.parse(localStorage.getItem('user'));
+  // console.log(currentUser);
+
   const [user, setUser] = useState(undefined);
- 
+  useEffect(() => { 
+    setUser(currentUser);
+  }, [localStorage.getItem('user')]);
   
+
+  // console.log(user);
+
+
   return (
     <>
       <Router>
@@ -23,7 +32,7 @@ const App = () => {
 
 
 
-          <Route path="/auth/login" element={<SignIn user={user} setUser={ setUser}  />} />
+          <Route path="/auth/login" element={<SignIn user={user} setUser={setUser} />} />
 
           <Route path="/auth/register" element={<SignUp user={user} setUser={setUser} />}></Route>
           <Route path='/' element={<HomePage user={user} articles={articles} setArticles={setArticles} recentSearches={recentSearches} setRecentSearches={setRecentSearches} />}></Route>

@@ -53,11 +53,7 @@ const Comments = ({ user, blogId, backendComments, setBackendComments,rootCommen
     }, []);
 
 
-    
-    console.log("Backend comments:");
-    console.log(backendComments);
-    console.log("root comments:");
-    console.log(rootComments);
+   
 
     const getReplies = (commentId) => {
         return backendComments
@@ -119,7 +115,7 @@ const Comments = ({ user, blogId, backendComments, setBackendComments,rootCommen
                             'Authorization': `Bearer ${accessToken}`
                         }
                     });
-                    console.log(res);
+                    // console.log(res);
                     if (res.status === 201) {
 
                         setBackendComments([res.data, ...backendComments]);
@@ -151,7 +147,7 @@ const Comments = ({ user, blogId, backendComments, setBackendComments,rootCommen
                     'Authorization': `Bearer ${accessToken}`
                 }
             });
-            console.log(res);
+            // console.log(res);
             if (res.status === 200) {
                 setBackendComments(prevComments => {
                     return prevComments.map(backendComment => {
@@ -189,7 +185,7 @@ const Comments = ({ user, blogId, backendComments, setBackendComments,rootCommen
                         'Authorization': `Bearer ${accessToken}`
                     }
                 });
-                console.log(res);
+                // console.log(res);
                 if (res.status === 204) {
                     setBackendComments(prevComments => {
                         return prevComments.map(backendComment => {
@@ -230,7 +226,7 @@ const Comments = ({ user, blogId, backendComments, setBackendComments,rootCommen
                     'Authorization': `Bearer ${accessToken}`
                 }
             });
-            console.log(res);
+            // console.log(res);
             if (res.status === 200) {
                 setBackendComments(prevComments => {
                     return prevComments.map(backendComment => {
@@ -269,7 +265,7 @@ const Comments = ({ user, blogId, backendComments, setBackendComments,rootCommen
                     'Authorization': `Bearer ${accessToken}`
                 }
             });
-            console.log(res);
+            // console.log(res);
             if (res.status === 200) {
                 setBackendComments(prevComments => {
                     return prevComments.map(backendComment => {

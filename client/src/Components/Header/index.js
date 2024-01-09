@@ -51,7 +51,7 @@ const Header = ({ user, articles, setArticles, setRecentSearches }) => {
                             'Authorization': `Bearer ${accessToken}`
                         }
                     });
-                    console.log(addRecentSearchResponse);;
+                    // console.log(addRecentSearchResponse);;
                     if (addRecentSearchResponse.status === 200) {
                         setRecentSearches(addRecentSearchResponse.data.recentSearches);
                     }
@@ -89,7 +89,7 @@ const Header = ({ user, articles, setArticles, setRecentSearches }) => {
             </div>
 
             {
-                user ? <div className='header-right-container'>
+                user&&Object.keys(user).length!==0 ? <div className='header-right-container'>
                     <div className='article-write-container' onClick={() => navigate('/new-story')}><TfiWrite size={23} color='gray' /> <div>Write</div></div>
 
                     <div className='user-image-container' onClick={() => { user ? navigate(`/@${user.username}`) : navigate('/auth/login') }}><img src={defaultUserImage} alt="" /></div>
