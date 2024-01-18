@@ -46,22 +46,22 @@
    git clone https://github.com/your-username/blog-management-system.git
    cd blog-management-system
     ```
-### 2.Install dependencies
+### 1. Install dependencies
 
 
-cd client && npm install
-cd ../server && npm install
-### 3.Set up environment variables
+    cd client && npm install
+    cd ../server && npm install
+### 2.  Set up environment variables
 
-Create a .env file in the server directory and configure MongoDB connection, JWT_SECRET, etc.
-### 4.Run the application
+    Create a .env file in the server directory and configure MongoDB connection, JWT_SECRET, etc.
+### 3. Run the application
 
 
-#### In the server directory
-npm run dev
+  #### In the server directory
+    npm run dev
 
-#### In the client directory
-npm start
+  #### In the client directory
+    npm start
 
 ## Folder Structure
     blog-management-system/
@@ -69,7 +69,7 @@ npm start
     |   |-- src/
     |   |   |-- assets/
     |   |   |-- Components/
-    |   |   |   |-- ArticlesComponent/
+    |   |   |   |-- ArticlesGroupComponent/
     |   |   |   |   |-- index.js
     |   |   |   |   |-- index.css
     |   |   |   |
@@ -171,7 +171,7 @@ npm start
     |   |   |   |-- userController.js
     |   |   |   |-- userFieldsController.js
     |   |   |
-    |   |   |-- middleware/
+    |   |   |-- middlewares/
     |   |   |   |-- errorHandler.js
     |   |   |   |-- validTokenHandler.js
     |   |   |
