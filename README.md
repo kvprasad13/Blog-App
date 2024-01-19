@@ -211,14 +211,14 @@
 ## Full Text Search
 ![Screenshot 2024-01-18 171734](https://github.com/kvprasad13/Blog-Management-System/assets/123655329/99c7b38a-18b6-4b59-ad09-bb9c4a5a1edd)
 
-## when blog is clicked the blog data will be displayed
+## when blog is clicked the data will be displayed
 ![Screenshot 2024-01-18 171526](https://github.com/kvprasad13/Blog-Management-System/assets/123655329/91528287-4400-444c-9050-6ad6dc080da9)
 
-## Time taken to read and  blog creation date 
+## Time taken to read creation date 
 ![Screenshot 2024-01-18 171941](https://github.com/kvprasad13/Blog-Management-System/assets/123655329/520947cc-14e1-4165-b85d-e6c425cf3d28)
 
-## Clpping
-### Before Clpping 
+## Clapping
+### Before Clapping 
 ![Screenshot 2024-01-18 172106](https://github.com/kvprasad13/Blog-Management-System/assets/123655329/e5c0cb19-4bc8-4793-b275-731eddf34f0d)
 
 ## After Clapping
