@@ -1,7 +1,7 @@
-# Blog Management System
+# Blog App
 
 ## Overview
-🚀 The Blog Management System is a full-stack application developed for creating, reading, updating, and deleting articles. It provides a user-friendly platform with features like user authentication, article commenting, favorites management, full-text search, and more.
+🚀 The Blog App is a full-stack application developed for creating, reading, updating, and deleting articles. It provides a user-friendly platform with features like user authentication, article commenting, favorites management, full-text search, and more.
 
 ## Features
 
@@ -43,8 +43,8 @@
 
 1. Clone the repository
    ```
-   git clone https://github.com/your-username/blog-management-system.git
-   cd blog-management-system
+   git clone https://github.com/your-username/blog-app.git
+   cd blog-app
     ```
 ### 1. Install dependencies
 
@@ -64,7 +64,7 @@
     npm start
 
 ## Folder Structure
-    blog-management-system/
+    blog-app/
     |-- client/
     |   |-- src/
     |   |   |-- assets/
