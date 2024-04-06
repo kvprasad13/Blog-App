@@ -247,7 +247,7 @@
 ![Screenshot 2024-01-18 171841](https://github.com/kvprasad13/Blog-Management-System/assets/123655329/90ffd50d-9cfd-4a1a-baa3-098e984548be)
 
 # Author
-Varaprasad Kade
-Phaneendra Kumar
+    Varaprasad Kade
+    Phaneendra Kumar
 
 
